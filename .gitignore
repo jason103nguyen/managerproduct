@@ -42,3 +42,6 @@ erd/
 .settings/
 .classpath
 .project
+mvnw
+mvnw.cmd
+.mvn/
