@@ -16,19 +16,29 @@
 
 <div class="container p-5 my-5 border">
 	
-	<form th:action="@{/user/add-user}" method="POST" th:object="${user}">
-		<div class="mb-3 mt-3">
-			<label for="name" class="form-label">Enter Name User:</label>
-			<input type="text" class="form-control" id="name" placeholder="Enter name user" th:field="*{name}">
+	<form th:action="@{/user/add-user}" method="POST" th:object="${user}" enctype="multipart/form-data">
+		<div class="row">
 			
-			<label for="img" class="form-label">Load Image Of User:</label>
-			<input type="file" class="form-control" id="img" th:field="*{img}">
+			<div class="col-sm-4 p-3">
+				<img th:src="@{imgUrl}" class="rounded mx-auto d-block" alt="avatar picture" width="200" height="200"><br/>
+				<label for="img" class="form-label">Load Image Of User:</label>
+				<input type="file" class="form-control" id="img" name="file">
+			</div>
+			
+			<div class="col-sm-8 p-3">
+				<label for="name" class="form-label">Enter Name User:</label>
+				<input type="text" class="form-control" id="name" placeholder="Enter name user" th:field="*{name}"><br/>
+				
+				<label for="age" class="form-label">Enter Age User:</label>
+				<input type="text" class="form-control" id="age" placeholder="Enter age user" th:field="*{age}">
+				
+				<button type="submit" class="btn btn-primary mt-3" >Submit</button>
+			</div>
+			
 		</div>
-		
-		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
-
 </div>
+
 
 </body>
 </html>

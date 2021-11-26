@@ -6,15 +6,17 @@ public class UserDto {
 
 	private int id;
 	private String name;
-	private String img;
+	private String img = "/img/raw_avatar.jpg";
+	private int age;
 	
-	public UserDto() {}
+	public UserDto() {
+	}
 
-	public UserDto(int id, String name, String img) {
+	public UserDto(int id, String name, int age) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.img = img;
+		this.age = age;
 	}
 	
 	public UserDto(User user) {
@@ -46,10 +48,19 @@ public class UserDto {
 	public void setImg(String img) {
 		this.img = img;
 	}
+	
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", name=" + name + ", img=" + img + "]";
+		return "UserDto [id=" + id + ", name=" + name + ", img=" + img + ", age=" + age + "]";
 	}
 	
 }

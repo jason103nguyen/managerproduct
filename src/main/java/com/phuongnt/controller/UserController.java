@@ -1,5 +1,12 @@
 package com.phuongnt.controller;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.phuongnt.dto.UserDto;
 
@@ -27,9 +36,9 @@ public class UserController {
 	@Autowired
 	public UserController(MessageSource messageSource) {
 		
-		listUser.add(new UserDto(1, "diem", null));
-		listUser.add(new UserDto(2, "huong", null));
-		listUser.add(new UserDto(3, "phuong", null));
+		listUser.add(new UserDto(1, "Nguyen Thi Ngoc Diem", 31));
+		listUser.add(new UserDto(2, "Nguyen Thi Diem Huong", 28));
+		listUser.add(new UserDto(3, "Nguyen Tri Phuong", 25));
 		this.messageSource = messageSource;
 	}
 	
@@ -37,12 +46,30 @@ public class UserController {
 	public String addUser(Model model) {
 		UserDto user = new UserDto();
 		model.addAttribute("user", user);
+		String imgUrl = "/img/raw_avatar.jpg";
+		model.addAttribute("imgUrl", imgUrl);
 		return "addUser";
 	}
 	
 	@PostMapping(value = "/add-user")
-	public String addUser(@ModelAttribute(name = "user") UserDto user) {
+	public String addUser(@ModelAttribute(name = "user") UserDto user, @RequestParam(name = "file") MultipartFile file) {
+		
+		String pathImg = "E:\\01_Java\\10_Spring\\03_Source_Code_JMaster\\managerproduct\\target\\classes\\static\\img\\" + file.getOriginalFilename();
+	
+		try {
+			File newFile = new File(pathImg);
+			FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+			fileOutputStream.write(file.getBytes());
+			fileOutputStream.close();
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
 		user.setId(listUser.size() + 1);
+		user.setImg("/img/" + file.getOriginalFilename());
+		
 		listUser.add(user);
 		return "redirect:/user/add-user";
 	}
@@ -79,7 +106,6 @@ public class UserController {
 	
 	@GetMapping(value = "/show-all-user")
 	public String showAllUser(Model model) {
-		model.addAttribute("title", messageSource.getMessage("user.title", null, null));
 		model.addAttribute("listUser", listUser);
 		return "showAllUser";
 	}

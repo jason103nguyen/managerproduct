@@ -14,26 +14,21 @@
 	<h2>Show All User</h2> 
 </div>
 
-<div class="container mt-3">
-	<h2>Information of all user</h2>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name User</th>
-			</tr>
-		</thead>
+<div class="container">
+	<th:block th:each="user : ${listUser}">
 		
-		<tbody>
-			<th:block th:each="user : ${listUser}">
-				<tr>
-					<td th:text="*{user.id}"></td>
-					<td th:text="*{user.name}"></td>
-				</tr>
-			</th:block>
-		</tbody>
-	</table>
+		<div class="container p-5 my-5 border row">
+			<div class="col-sm-4 p-3">
+				<img th:src="@{user.img}" class="rounded mx-auto d-block" alt="avatar picture" width="200" height="200"><br/>
+			</div>
+			
+			<div class="col-sm-8 p-3">
+				Name of user: <h2 th:text="${user.name}"></h2><br/>
+				Age of user: <h2 th:text="${user.age}"></h2><br/>
+			</div>
+		</div>
+		
+	</th:block>
 </div>
-
 </body>
 </html>
